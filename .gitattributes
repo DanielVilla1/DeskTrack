@@ -1,0 +1,2 @@
+# Force LF so Docker, shell scripts, and Prettier behave the same on every OS.
+* text=auto eol=lf

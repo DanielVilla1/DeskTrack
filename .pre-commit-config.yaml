@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
+    hooks:
+      - id: ruff-check
+        files: ^backend/
+      - id: ruff-format
+        files: ^backend/
+
+  # Frontend hooks use the tools installed by `npm ci` in frontend/, so versions match CI.
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: node frontend/node_modules/prettier/bin/prettier.cjs --write --ignore-unknown
+        language: system
+        files: ^frontend/
+        exclude: ^frontend/package-lock\.json$
+      - id: eslint
+        name: eslint
+        entry: node frontend/node_modules/eslint/bin/eslint.js --config frontend/eslint.config.js
+        language: system
+        files: ^frontend/.*\.(js|jsx)$

@@ -1,0 +1,15 @@
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+# E, F, I, N, UP, B are the minimum from Architecture.md section 16.
+# ANN enforces type hints on every function and T20 bans print (Rules.md section 8).
+select = ["E", "F", "I", "N", "UP", "B", "ANN", "T20"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

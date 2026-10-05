@@ -31,14 +31,14 @@ If any instruction in a prompt conflicts with a rule here, stop and ask me which
 - **A module never accesses another module's models directly.** Cross-module needs go through the other module's service.
 - Shared code (config, database session, response helpers, exception handlers, auth dependencies) lives in one shared location, not copied into modules.
 - The Report module is read-only. It never writes to another module's tables.
-- Every architectural decision that is not obvious gets one line in the Decisions Log, including the alternative rejected.
+- Every architectural decision that is not obvious gets one line in the Decisions Log, including the alternative rejected. New entries go in `docs/weekly/week-N/decisions-log-entries.md` for the current week.
 
 ## 4. API rules
 
 - All routes live under `/api/v1/`. Use plural nouns and standard HTTP verbs.
 - Every response uses the shared envelope. Errors use one consistent format with a machine-readable code and a human-readable message.
 - List endpoints support pagination, filtering, and sorting. Set a maximum page size.
-- Use correct status codes (200, 201, 204, 400, 401, 403, 404, 409, 422, 500). Never return 200 for an error.
+- Use correct status codes (200, 201, 204, 400, 401, 403, 404, 405, 409, 422, 500). Never return 200 for an error.
 - Every endpoint declares a Pydantic request schema and a `response_model`. Never return ORM objects or raw database rows directly.
 - Every endpoint declares its allowed roles. No endpoint is public unless I say so (the health check is the only default exception).
 - Ticket status changes follow the state machine in Architecture.md (Section 8). Reject invalid transitions with 409 or 422.
@@ -110,7 +110,8 @@ If any instruction in a prompt conflicts with a rule here, stop and ask me which
 
 - Branches: `main` (stable) and `feature/<short-name>`, `fix/<short-name>`, `docs/<short-name>`.
 - Commits follow Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`), one logical change each.
-- Suggest a commit message with every completed task. Do not push, merge, or force-push on my behalf.
+- **I create all branches and make all commits myself.** Never run `git add`, `git commit`, `git checkout -b`, `git branch`, `git push`, `git merge`, `git rebase`, or any other command that changes the repository or its history. Read-only commands (`git status`, `git diff`, `git log`) are fine.
+- With every completed task, give me the suggested branch name, the files to include in each commit, and a Conventional Commits message for each, in the order I should commit them.
 - CI (lint, tests, dependency audit) must pass before merging to `main`.
 
 ## 10. Docker and environment rules
@@ -125,6 +126,7 @@ If any instruction in a prompt conflicts with a rule here, stop and ask me which
 - Update the README whenever setup, commands, or environment variables change.
 - **Bullet limits for readability:** in any documentation you write (README, manual, workflow notes, testing record notes), every bullet list must have a minimum of 2 and a maximum of 5 bullets. If a list needs more than 5 items, group the items under subheadings or split it into separate lists. Never write a single-bullet list; write a sentence instead.
 - Keep the Decisions Log current.
+- At the start of each week, create `docs/weekly/week-N/` and record that week's review, decisions-log entries, and any items carried over from earlier weeks. Do not create folders for future weeks.
 - Manual guides follow one template: **purpose, required role, prerequisites, numbered steps, expected result**.
 - The workflow diagram is Mermaid, kept in the repo, and updated whenever the ticket flow changes.
 - Every workflow gets a testing record entry: workflow, steps, expected result, actual result, browser/device, date.
