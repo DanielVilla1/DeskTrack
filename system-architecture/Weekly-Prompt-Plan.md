@@ -40,7 +40,7 @@ Report in this order:
 1. Rule violations (with file and line)
 2. Security or validation gaps
 3. Missing or weak tests
-4. Naming, structure, or readability improvements
+4. Code cleanliness against Rules.md section 8 (function and file size, duplication, naming, magic values, unused code) and readability improvements
 5. Anything that will cause problems in a later week
 
 List findings by severity. Do not change any code yet. Wait for me to pick which to fix.
@@ -72,6 +72,8 @@ Wrap up this session.
 - [ ] `GET /api/v1/health` returns the standard envelope
 - [ ] Clerk application created and keys stored in `.env`
 - [ ] GitHub repo with branch protection and a basic CI workflow (lint and tests)
+- [ ] Pre-commit hooks installed; CI runs lint and format checks
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 1A: Plan the scaffold**
 ```
@@ -85,7 +87,7 @@ Do not write code yet. Wait for my approval.
 ```
 Plan approved. Build the Week 1 scaffold now: repo structure, Docker Compose,
 FastAPI with the four empty module packages (Ticket, Asset, User, Report),
-Alembic setup, shared response envelope, health endpoint, React app shell, and the README setup section.
+Alembic setup, shared response envelope, health endpoint, React app shell, ruff, ESLint, and Prettier configuration, pre-commit hooks, and the README setup section.
 Give me the exact commands to run it and verify it from a clean clone.
 ```
 
@@ -102,6 +104,7 @@ Give me the exact commands to run it and verify it from a clean clone.
 - [ ] Alembic migrations for `users`, `tickets`, `ticket_status_history`
 - [ ] Employee can create a ticket and view only their own tickets and each ticket's status
 - [ ] Tests: happy path, validation failure, authorization failure for each endpoint
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 2A: Authentication and user module**
 ```
@@ -142,6 +145,7 @@ loading, success, and error states. Plan first, wait for approval.
 - [ ] Comments on tickets (employee and staff), with visibility rules
 - [ ] Every status change recorded in `ticket_status_history` with actor and timestamp
 - [ ] Employees cannot call staff endpoints (403 verified by tests)
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 3A: Staff ticket operations (API)**
 ```
@@ -180,6 +184,7 @@ though the API remains the real gate. Plan first, wait for approval.
 - [ ] Report module returns tickets by status, assets by status, and warranty expiring soon
 - [ ] Admin dashboard in React showing those summaries
 - [ ] Non-admins get 403 on asset-write and report endpoints
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 4A: Asset module (API)**
 ```
@@ -218,6 +223,7 @@ Plan first, wait for approval.
 - [ ] No secrets in the repo or git history; `.env.example` complete
 - [ ] `pip-audit` and `npm audit` clean or each finding triaged
 - [ ] Production settings checklist completed (debug off, CORS locked, secure headers, `/docs` restricted)
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 5A: Security audit (findings only)**
 ```
@@ -257,6 +263,8 @@ Flag any endpoint whose behavior differs from Architecture.md.
 - [ ] Layout works at phone, tablet, and desktop widths
 - [ ] Sentry capturing errors from React and FastAPI, with personal data scrubbed
 - [ ] BrowserStack run completed for the main workflows, results recorded
+- [ ] Code quality pass completed across the whole codebase
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 6A: UX review**
 ```
@@ -287,6 +295,17 @@ one Android, and the latest Chrome, Firefox, Safari, and Edge), the exact steps,
 expected results, and a table for recording actual results with date.
 ```
 
+**Prompt 6E: Code quality pass**
+```
+Week 6, Code quality pass. Review the whole codebase against Rules.md section 8
+(code cleanliness): function and file size, duplication, naming conventions, magic numbers
+and strings, unused code, import order, and leftover debug output.
+
+Report findings in a table: file | issue | rule | suggested fix. Do not change any code yet.
+Wait for me to pick which to fix. Then fix them in small refactor commits and confirm that
+tests, ruff, ESLint, and Prettier all pass.
+```
+
 ---
 
 ## Week 7: Deploy
@@ -299,6 +318,7 @@ expected results, and a table for recording actual results with date.
 - [ ] Clerk production keys configured and allowed origins set
 - [ ] README has setup instructions, screenshots, and a demo guide
 - [ ] Smoke test of all three core workflows on the live site
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 7A: Choose the platform**
 ```
@@ -338,6 +358,7 @@ using the seeded demo accounts. Keep it clear and scannable.
 - [ ] "Overdue" defined clearly (due date passed and status not resolved or closed)
 - [ ] Dashboard shows overdue tickets and counts by priority
 - [ ] Migration, tests, and docs updated
+- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 8A: Design the enhancement**
 ```

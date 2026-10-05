@@ -97,7 +97,7 @@ sequenceDiagram
 | Cross-browser testing | BrowserStack | Real browsers and devices for the main workflows | Manual and time-limited; used for the three core workflows only |
 
 ### Backend dependencies
-Runtime: `fastapi`, `uvicorn[standard]`, `sqlalchemy`, `psycopg[binary]`, `alembic`, `pydantic-settings`, `pyjwt[crypto]`. Added later: `slowapi` (Week 5), `sentry-sdk[fastapi]` (Week 6). Development: `pytest`, `httpx`, `ruff`, `pip-audit`.
+Runtime: `fastapi`, `uvicorn[standard]`, `sqlalchemy`, `psycopg[binary]`, `alembic`, `pydantic-settings`, `pyjwt[crypto]`. Added later: `slowapi` (Week 5), `sentry-sdk[fastapi]` (Week 6). Development: `pytest`, `httpx`, `ruff`, `pre-commit`, `pip-audit`.
 
 ### Frontend dependencies
 Runtime: `react`, `react-dom`, `react-router-dom`, `@clerk/clerk-react`, `@tanstack/react-query`. Added later: `@sentry/react` (Week 6). Development: `vite`, `tailwindcss`, `eslint`, `prettier`, `vitest`, `@testing-library/react`.
@@ -633,6 +633,7 @@ desktrack/
 ├── .github/
 │   ├── workflows/ci.yml
 │   └── dependabot.yml
+├── .pre-commit-config.yaml
 ├── docker-compose.yml
 ├── .env.example
 └── README.md
@@ -643,9 +644,15 @@ desktrack/
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `test:`, `refactor:`).
 - **CI (GitHub Actions):**
   - Backend job: `ruff check`, `ruff format --check`, `pytest` (with a PostgreSQL service), `pip-audit`
-  - Frontend job: `eslint`, `vitest`, `vite build`, `npm audit --audit-level=high`
+  - Frontend job: `eslint`, `prettier --check`, `vitest`, `vite build`, `npm audit --audit-level=high`
 - **Branch protection:** CI must pass before merging to `main`.
 - **Dependabot:** weekly updates for Python, npm, and GitHub Actions.
+
+### Code quality tooling
+
+- `pre-commit` hooks run ruff (check and format) on backend files, and Prettier and ESLint on frontend files, before every commit.
+- ruff enables at least the pycodestyle (`E`), pyflakes (`F`), isort (`I`), naming (`N`), pyupgrade (`UP`), and bugbear (`B`) rule sets.
+- CI repeats the same checks, so a skipped hook cannot reach `main`.
 
 ## 17. Documentation deliverables
 
@@ -661,7 +668,7 @@ desktrack/
 
 | Week | Phase | Architecture items delivered |
 |---|---|---|
-| 1 | Setup | Repo, Docker Compose, FastAPI skeleton with four module packages, Alembic, health endpoint, React shell, Clerk app, CI |
+| 1 | Setup | Repo, Docker Compose, FastAPI skeleton with four module packages, Alembic, health endpoint, React shell, Clerk app, CI, pre-commit hooks |
 | 2 | Core 1 | Clerk verification dependency, User module, `users`, `tickets`, `ticket_status_history` migrations, employee submit and track (API and UI) |
 | 3 | Core 2 | Staff queue, assign, status transitions, comments, history, internal notes |
 | 4 | Core 3 | Asset module, assignments, ticket-asset link, Report module, admin dashboard, role management |
@@ -701,6 +708,7 @@ desktrack/
 | Report caching | None at launch | In-memory or Redis cache | Small data volume |
 | Ticket not found for non-owners | 404 | 403 | Does not leak ticket existence |
 | Deployment target | Azure (provisional) | Heroku | Student credit; confirmed in Week 7 |
+| Code quality enforcement | `pre-commit` hooks plus CI checks | Husky and lint-staged | One tool covers Python and JavaScript; CI backs up skipped hooks |
 
 ## 20. Open items to confirm
 

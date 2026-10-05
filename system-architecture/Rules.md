@@ -74,13 +74,37 @@ If any instruction in a prompt conflicts with a rule here, stop and ask me which
 - Mobile-first layout. Accessible by default: labels on inputs, keyboard navigation, sufficient contrast.
 - No secrets in frontend code. Only the Clerk publishable key belongs there.
 
-## 8. Code quality and testing
+## 8. Code quality, cleanliness, and testing
 
 - Follow PEP 8 enforced by ruff, with type hints on every function, and the project ESLint/Prettier config for JavaScript. Do not mix blocking and async code; follow the sync or async choice recorded in the Decisions Log. Names are descriptive; comments explain *why*, not *what*.
 - No dead code, commented-out blocks, or leftover debug output.
 - Every service method and endpoint gets pytest tests: at least one happy path, one validation failure, and one authorization failure.
 - A task is not done until the tests pass and you have told me how to run them.
 - Report bugs you notice outside the current task. Do not fix them silently.
+
+### Code cleanliness: size and structure
+
+- Keep functions short and single-purpose: aim for under 30 lines. Split anything longer unless I approve it.
+- Keep files focused on one responsibility. A file over about 300 lines is a signal to split it.
+- Avoid deep nesting: use early returns and guard clauses instead of more than three levels of indentation.
+- Do not repeat yourself: when the same logic appears a third time, extract it into one shared function or component.
+- Prefer simple, explicit code over clever one-liners.
+
+### Code cleanliness: naming and constants
+
+- Python uses `snake_case` for functions, variables, and modules, `PascalCase` for classes, and `UPPER_SNAKE_CASE` for constants.
+- JavaScript uses `camelCase` for functions and variables, `PascalCase` for React components and their files, and a `use` prefix for hooks.
+- API JSON fields and database columns use `snake_case`, and the same concept keeps the same name in every layer.
+- No magic numbers or strings: statuses, roles, limits, and messages live in named constants or enums, defined once.
+- Names say what a thing is or does. Avoid `data`, `temp`, `x`, `handle`, and abbreviations that need explaining.
+
+### Code cleanliness: tidiness and enforcement
+
+- Remove unused imports, variables, parameters, and files before finishing a task. Keep imports sorted (ruff handles Python).
+- No catch-all `utils` file: name shared helpers by purpose and place them in the module or folder that owns them.
+- No `print` or `console.log` debugging, and no `TODO` comment without a note in the week's close-out.
+- Run ruff, ESLint, and Prettier before every commit. Pre-commit hooks run them automatically, and CI blocks merging if any check fails.
+- Run the Review and Polish prompt at the end of each week, and fix code-quality findings before the week is marked done.
 
 ## 9. Git and GitHub rules
 
@@ -120,6 +144,7 @@ If any instruction in a prompt conflicts with a rule here, stop and ask me which
 - [ ] Input validated and authorization enforced server-side
 - [ ] Tests written and passing
 - [ ] No secrets, debug output, or dead code committed
+- [ ] Lint and format checks pass, and the code meets the cleanliness rules in section 8
 - [ ] README and Decisions Log updated if affected
 - [ ] Suggested commit message provided
 - [ ] I have confirmed it meets the exit criteria for the current week
