@@ -159,7 +159,8 @@ backend/
 ### Shared conventions
 - **Success envelope:** `{ "data": ..., "meta": { ... } }` (`meta` only on lists)
 - **Error envelope:** `{ "error": { "code": "INVALID_TRANSITION", "message": "...", "details": [ ... ] } }`
-- **Error codes:** `UNAUTHENTICATED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `VALIDATION_ERROR` (422), `INVALID_TRANSITION` (409), `CONFLICT` (409), `INTERNAL_ERROR` (500)
+- **Error codes:** `UNAUTHENTICATED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `VALIDATION_ERROR` (422), `METHOD_NOT_ALLOWED` (405), `INVALID_TRANSITION` (409), `CONFLICT` (409), `INTERNAL_ERROR` (500)
+- **Validation details:** for `VALIDATION_ERROR`, `details` is a list of `{ "field", "message" }` objects. `field` is a dotted path that includes its source (for example `body.title` or `query.page`). Submitted input is never echoed back.
 - A user requesting another employee's ticket receives **404**, not 403, so ticket existence is not leaked.
 - Timestamps are timezone-aware UTC, serialized as ISO 8601.
 
@@ -629,6 +630,7 @@ desktrack/
 │   ├── manual/              # step-by-step guides
 │   ├── workflow/            # Mermaid workflow diagram
 │   ├── screenshots/
+│   ├── weekly/              # per-week notes: review, decisions-log entries, carried-over items
 │   └── testing/             # testing record
 ├── .github/
 │   ├── workflows/ci.yml
@@ -661,6 +663,7 @@ desktrack/
 | User manual | `docs/manual/` | Three guides: submit a ticket, assign and resolve a ticket, add an asset. Each uses the template: purpose, required role, prerequisites, numbered steps, expected result |
 | Workflow diagram | `docs/workflow/ticket-workflow.md` | Mermaid diagram from Section 8, kept up to date |
 | Screenshots | `docs/screenshots/` | Real captures with seeded fake data, descriptive filenames |
+| Weekly notes | `docs/weekly/week-N/` | Created as each week starts: `review.md` (findings, picks, deferred items), `decisions-log-entries.md`, and later weeks' carried-over items |
 | Testing record | `docs/testing/test-record.md` | One entry per workflow per browser or device |
 | README | repo root | Overview, features by role, architecture diagram, local setup, environment variables, deployment notes, demo guide |
 
@@ -690,6 +693,8 @@ desktrack/
 | Scope creep | Out-of-scope list in Section 1; new features need approval |
 
 ## 19. Decisions Log
+
+This table is the baseline. New decisions made during the build are recorded in `docs/weekly/week-N/decisions-log-entries.md` for the current week.
 
 | Decision | Chosen | Rejected | Reason |
 |---|---|---|---|

@@ -53,7 +53,7 @@ Wrap up this session.
 
 1. Summarize what is done, what is partly done, and what is not started.
 2. List open questions and assumptions I still need to confirm.
-3. Give me a suggested commit message for each logical change.
+3. For each logical change, give me the suggested branch name, the files to include, and a Conventional Commits message, in the order I should commit them. I make all branches and commits myself, so do not run any git command that changes the repository.
 4. Update the Decisions Log with any new decisions.
 5. Write a 5-line "Where I left off" note I can paste into the next Session Starter.
 ```
@@ -65,15 +65,15 @@ Wrap up this session.
 **Goal:** A clean repo where `docker compose up` starts the whole stack, with a verified Clerk connection.
 
 **Exit criteria**
-- [ ] Repo created with the agreed structure, `.gitignore`, `.env.example`, README skeleton
-- [ ] Compose services running: React, FastAPI API (uvicorn), PostgreSQL
-- [ ] Alembic initialized and the first migration runs
-- [ ] OpenAPI docs reachable at `/docs` in development
-- [ ] `GET /api/v1/health` returns the standard envelope
-- [ ] Clerk application created and keys stored in `.env`
-- [ ] GitHub repo with branch protection and a basic CI workflow (lint and tests)
-- [ ] Pre-commit hooks installed; CI runs lint and format checks
-- [ ] Review and Polish run; code-quality findings fixed (Rules.md section 8)
+- [x] Repo created with the agreed structure, `.gitignore`, `.env.example`, README skeleton
+- [x] Compose services running: React, FastAPI API (uvicorn), PostgreSQL
+- [x] Alembic initialized and the first migration runs
+- [x] OpenAPI docs reachable at `/docs` in development
+- [x] `GET /api/v1/health` returns the standard envelope
+- [x] Clerk application created and keys stored in `.env`
+- [x] GitHub repo with branch protection and a basic CI workflow (lint and tests)
+- [x] Pre-commit hooks installed; CI runs lint and format checks
+- [x] Review and Polish run; code-quality findings fixed (Rules.md section 8)
 
 **Prompt 1A: Plan the scaffold**
 ```
@@ -302,7 +302,7 @@ Week 6, Code quality pass. Review the whole codebase against Rules.md section 8
 and strings, unused code, import order, and leftover debug output.
 
 Report findings in a table: file | issue | rule | suggested fix. Do not change any code yet.
-Wait for me to pick which to fix. Then fix them in small refactor commits and confirm that
+Wait for me to pick which to fix. Then fix them in small changes I can commit one at a time as refactor: commits, and confirm that
 tests, ruff, ESLint, and Prettier all pass.
 ```
 
